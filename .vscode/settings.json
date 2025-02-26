@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/9a36cdc0-fbbe-4076-ad4c-e25f1bd26a00/resourceGroups/UniversityOfHuddersfield/providers/Microsoft.Web/sites/Chloe-Card-Backend",
+    "appService.deploySubpath": "."
+}
