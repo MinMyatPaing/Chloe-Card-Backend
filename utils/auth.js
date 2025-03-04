@@ -1,4 +1,6 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
+
+import UserType from "../constants/usertype.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "24h";
@@ -24,10 +26,35 @@ export function generateToken(user) {
  * @returns {Object|null} Decoded token payload or null
  */
 export function verifyToken(token) {
-    try {
-      return jwt.verify(token, JWT_SECRET);
-    } catch (err) {
-      console.error("Token verification failed:", err.message);
-      return null;
-    }
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (err) {
+    console.error("Token verification failed:", err.message);
+    return null;
   }
+}
+
+/**
+ * Determine user type based on age
+ * @param {number} age - Age
+ * @returns {string} User Type or Error
+ */
+export function determineUserType(age) {
+  try {
+    switch (true) {
+      case age >= 0 && age <= 18:
+        return UserType.CHILDREN;
+      case age > 18 && age <= 35:
+        return UserType.YOUNG_ADULT;
+      case age > 35 && age <= 55:
+        return UserType.MIDDLE_AGE;
+      case age > 55:
+        return UserType.ELDERLY;
+      default:
+        throw Error("Invalid Age");
+    }
+  } catch (error) {
+    console.log("Invalid Age and error:", error.message);
+    throw error;
+  }
+}

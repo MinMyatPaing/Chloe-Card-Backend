@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 
 import { executeQuery } from "../config/db.js";
-import { generateToken } from "../utils/auth.js";
+import { generateToken, determineUserType } from "../utils/auth.js";
 
 const register = async (req, res) => {
   try {
@@ -67,17 +67,20 @@ async function registerUser(email, password, age) {
     throw new Error("User already exists");
   }
 
+  const userType = determineUserType(age);
+
   // Insert new user
   const insertQuery = `
-    INSERT INTO Users (Email, Password, Age, CreatedAt)
+    INSERT INTO Users (Email, Password, Age, Type, CreatedAt)
     OUTPUT INSERTED.*
-    VALUES (@email, @password, @age, GETDATE())
+    VALUES (@email, @password, @age, @userType, GETDATE())
   `;
 
   const result = await executeQuery(insertQuery, {
     email,
     password: hashedPassword,
     age,
+    userType,
   });
 
   return result.recordset[0];
