@@ -8,8 +8,8 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 
 import { checkConnection, initializePool, closePool } from "./config/db.js";
-import configRouter from "./routes/configuration.js";
-import authRouter from "./routes/auth.js";
+import openAiRoutes from "./routes/openAi.js";
+import authRoutes from "./routes/auth.js";
 
 const app = express();
 
@@ -45,8 +45,8 @@ app.get("/health", async (req, res) => {
 });
 
 // App Routes
-app.use("/api/configuration", configRouter);
-app.use("/api/auth", authRouter);
+app.use("/api/openai", openAiRoutes);
+app.use("/api/auth", authRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -83,5 +83,3 @@ process.on("SIGINT", async () => {
   await closePool();
   process.exit(0);
 });
-
-// export default app;

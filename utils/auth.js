@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import UserType from "../constants/usertype.js";
 
-const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const JWT_SECRET = process.env.JWT_SECRET;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "24h";
 
 /**
@@ -14,7 +14,6 @@ export function generateToken(user) {
   const payload = {
     userId: user.UserID,
     email: user.Email,
-    role: user.Role,
   };
 
   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });

@@ -1,10 +1,10 @@
 import express from "express";
-import { getApiKey } from "../controllers/configuration.js";
+import { summarizeText } from "../controllers/openAi.js";
 
 import authenticate from "../middleware/authenticate.js";
 
 const router = express.Router();
 
-router.get("/:key", authenticate, getApiKey);
+router.post("/summarize", authenticate, summarizeText);
 
 export default router;
